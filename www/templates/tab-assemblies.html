@@ -1,6 +1,6 @@
 <ion-view view-title="{{ 'Assemblies' | translate }}">
   <ion-content>
-      <ion-item ng-repeat="assembly in assemblies" href="#/tab/assemblies/{{assembly.id}}">
+      <ion-item ng-repeat="assembly in assemblies" href="#/tab/assemblies/{{assembly._id}}">
           <p ng-hide="!isFollowing({{'assembly.name'}})" class="badge badge-balanced item-note">
               <span translate="following">Seguint</span>
           </p>

@@ -1,15 +1,25 @@
 <ion-view view-title="{{ 'Evictions' | translate }}">
   <ion-content>
-      <ion-item ng-repeat="eviction in evictions | orderBy: 'date'" href="#/tab/evictions/{{eviction.id}}">
-
+    <ion-refresher
+       pulling-text="Pull to refresh..."
+       on-refresh="doRefresh()">
+     </ion-refresher>
+     <div class="card" ng-show="!assemblies">
+          <div class="item item-text-wrap">
+            No data in memory.<br>
+            Pull from top to refresh
+          </div>
+        </div>
+      <div ng-repeat="assembly in assemblies">
+        <ion-item ng-repeat="eviction in assembly.evictions | orderBy: 'date'" href="#/tab/evictions/{{eviction.id}}">
           <span class='item-note'>
               <p class='badge'>{{eviction.date | date:'dd-MM-yyyy'}}</p>
               <br>
-              {{eviction.assembly}}
+              {{assembly.name}}
           </span>
           <h2>{{eviction.title}}</h2>
           <p>{{eviction.direction}}</p>
-
-      </ion-item>
+        </ion-item>
+      </div>
   </ion-content>
 </ion-view>

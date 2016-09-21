@@ -1,25 +1,45 @@
+var urlapi="http://localhost:3000/api/";
+//var urlapi="https://pahapp.paas.primustech.io/api/";
+
 angular.module('starter.controllers', ['pascalprecht.translate'])
 
-.controller('EvictionsCtrl', function($scope, Evictions) {
-    $scope.evictions = Evictions.all();
-})
-.controller('EvictionDetailCtrl', function($scope, $stateParams, Evictions) {
-  $scope.eviction = Evictions.get($stateParams.evictionId);
-})
+.controller('EvictionsCtrl', function($scope, $http, $ionicLoading) {
+  $scope.assemblies={};
+  if(localStorage.getItem('pah_assemblies')){
+    $scope.assemblies=JSON.parse(localStorage.getItem('pah_assemblies'));
+  }
+  $scope.doRefresh = function(assembly) {
+    $http.get(urlapi + 'assemblies')
+    .success(function(data, status, headers,config){
+        console.log('data success');
+        console.log(data); // for browser console
+        $scope.assemblies = data; // for UI
+        localStorage.setItem('pah_assemblies', JSON.stringify($scope.assemblies));
+        $scope.$broadcast('scroll.refreshComplete');//refresher stop
+    })
+    .error(function(data, status, headers,config){
+        console.log('data error');
+        $scope.$broadcast('scroll.refreshComplete');//refresher stop
+        $ionicLoading.show({ template: 'Error connecting server', noBackdrop: true, duration: 2000 });
 
-.controller('AssembliesCtrl', function($scope, Assemblies) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
-  $scope.assemblies = Assemblies.all();
-  $scope.remove = function(assembly) {
-    Assemblies.remove(assembly);
+    })
+    .then(function(result){
+        travels = result.data;
+        $ionicLoading.show({ template: 'Assemblies actualized from server!', noBackdrop: true, duration: 2000 });
+    });
   };
+})
+.controller('EvictionDetailCtrl', function($scope, $stateParams, $filter) {
+
+})
+
+.controller('AssembliesCtrl', function($scope, $http, $ionicLoading) {
+
+  $scope.assemblies={};
+  if(localStorage.getItem('pah_assemblies')){
+    $scope.assemblies=JSON.parse(localStorage.getItem('pah_assemblies'));
+  }
+
   $scope.isFollowing=function(namegiv){
       if(localStorage.getItem(namegiv))
       {
@@ -30,8 +50,14 @@ angular.module('starter.controllers', ['pascalprecht.translate'])
   };
 })
 
-.controller('AssemblyDetailCtrl', function($scope, $stateParams, Assemblies) {
-  $scope.assembly = Assemblies.get($stateParams.assemblyId);
+.controller('AssemblyDetailCtrl', function($scope, $stateParams, $filter) {
+  $scope.assemblies={};
+  if(localStorage.getItem('pah_assemblies')){
+    $scope.assemblies=JSON.parse(localStorage.getItem('pah_assemblies'));
+  }
+
+  $scope.assembly = $filter('filter')($scope.assemblies, $stateParams.assemblyId, true)[0];
+  console.log($scope.assembly);
   $scope.followAssembly= function(){
       /*var oldFollowing = window.localStorage.getItem("following");
       oldFollowing = oldFollowing + ", " + $scope.assembly.name;
