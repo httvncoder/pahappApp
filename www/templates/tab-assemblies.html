@@ -1,0 +1,10 @@
+<ion-view view-title="{{ 'Assemblies' | translate }}">
+  <ion-content>
+      <ion-item ng-repeat="assembly in assemblies" href="#/tab/assemblies/{{assembly.id}}">
+          <p ng-hide="!isFollowing({{'assembly.name'}})" class="badge badge-balanced item-note">
+              <span translate="following">Seguint</span>
+          </p>
+          <h2>{{assembly.name}}</h2>
+      </ion-item>
+  </ion-content>
+</ion-view>

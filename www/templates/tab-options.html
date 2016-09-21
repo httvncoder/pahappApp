@@ -1,0 +1,16 @@
+<ion-view view-title="{{ 'Options' | translate }}">
+  <ion-content>
+    <ion-list>
+        <ion-toggle ng-model="settings.enableFriends">
+            <p translate="Notifications">Notificacions</p>
+        </ion-toggle>
+        <button ng-click="showConfirm()" class="button button-royal">
+          <i class="icon ion-power"></i> <span translate="Reset_Followings">Reseteja seguiments!</span>
+        </button>
+        <p translate="language">Language</p>
+        <button class="button button-dark" ng-click="ChangeLanguage('catala')">català</button>
+        <button class="button button-dark" ng-click="ChangeLanguage('castellano')">castellano</button>
+        <button class="button button-dark" ng-click="ChangeLanguage('esperanto')">esperanto</button>
+    </ion-list>
+  </ion-content>
+</ion-view>

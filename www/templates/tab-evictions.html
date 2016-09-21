@@ -1,0 +1,15 @@
+<ion-view view-title="{{ 'Evictions' | translate }}">
+  <ion-content>
+      <ion-item ng-repeat="eviction in evictions | orderBy: 'date'" href="#/tab/evictions/{{eviction.id}}">
+
+          <span class='item-note'>
+              <p class='badge'>{{eviction.date | date:'dd-MM-yyyy'}}</p>
+              <br>
+              {{eviction.assembly}}
+          </span>
+          <h2>{{eviction.title}}</h2>
+          <p>{{eviction.direction}}</p>
+
+      </ion-item>
+  </ion-content>
+</ion-view>
