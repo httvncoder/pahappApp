@@ -8,7 +8,9 @@ var translations = {
 		"Reset_Followings": "Reseteja seguiments!",
 		"following": "seguint",
 		"Follow": "Seguir!",
-		"Unfollow": "Deixar de seguir!"
+		"Unfollow": "Deixar de seguir!",
+		"Assembly_zone": "Zona assemblees",
+		"Login": "Login"
 	},
 	"castellano": {
 		"language": "idioma actual: castellano",
@@ -19,7 +21,9 @@ var translations = {
 		"Reset_Followings": "Resetea seguimientos!",
 		"following": "siguiendo",
 		"Follow": "Seguir!",
-		"Unfollow": "Dejar de seguir!"
+		"Unfollow": "Dejar de seguir!",
+		"Assembly_zone": "Zona asambleas",
+		"Login": "Login"
 	},
 	"esperanto": {
 		"language": "nuna lingvo: esperanto",
@@ -30,6 +34,8 @@ var translations = {
 		"Reset_Followings": "Restarigas sekvi!",
 		"following": "sekvante",
 		"Follow": "Sekvi!",
-		"Unfollow": "Ĉesi sekvi!"
+		"Unfollow": "Ĉesi sekvi!",
+		"Assembly_zone": "aaaaaaaa",
+		"Login": "aaaaaaaa"
 	}
 }

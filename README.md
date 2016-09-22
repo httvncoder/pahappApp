@@ -15,7 +15,9 @@ backend: https://github.com/arnaucode/pahappServer
 -post new assembly (signup)                          -->
 -post new eviction to assembly                       -->
 -get assembly by name                                -->
--login assembly                                      -->
+-login assembly                                      --> done
+
+-canviar el sistema de seguiments - pah_followingAssemblies
 
 
 ```

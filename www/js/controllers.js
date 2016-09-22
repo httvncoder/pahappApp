@@ -2,12 +2,28 @@ var urlapi="http://localhost:3000/api/";
 //var urlapi="https://pahapp.paas.primustech.io/api/";
 
 angular.module('starter.controllers', ['pascalprecht.translate'])
-
-.controller('EvictionsCtrl', function($scope, $http, $ionicLoading) {
+.controller('tabCtrl', function($scope) {
   $scope.assemblies={};
+  $scope.getStorageData = function(){
+    if(localStorage.getItem('pah_assemblies')){
+      $scope.assemblies=JSON.parse(localStorage.getItem('pah_assemblies'));
+    }
+    if(localStorage.getItem("pah_assemblyName"))
+    {
+      $scope.storageAssemblyName=localStorage.getItem("pah_assemblyName");
+    }
+  };
+  $scope.getStorageData();
+
+
+})
+.controller('EvictionsCtrl', function($scope, $http, $ionicLoading) {
+  /*$scope.assemblies={};
   if(localStorage.getItem('pah_assemblies')){
     $scope.assemblies=JSON.parse(localStorage.getItem('pah_assemblies'));
-  }
+  }*/
+  $scope.getStorageData();
+
   $scope.doRefresh = function(assembly) {
     $http.get(urlapi + 'assemblies')
     .success(function(data, status, headers,config){
@@ -30,10 +46,12 @@ angular.module('starter.controllers', ['pascalprecht.translate'])
   };
 })
 .controller('EvictionDetailCtrl', function($scope, $stateParams, $filter) {
-  $scope.assemblies={};
+  /*$scope.assemblies={};
   if(localStorage.getItem('pah_assemblies')){
     $scope.assemblies=JSON.parse(localStorage.getItem('pah_assemblies'));
-  }
+  }*/
+  $scope.getStorageData();
+
   console.log($stateParams.assemblyId);
   $scope.assembly = $filter('filter')($scope.assemblies, $stateParams.assemblyId, true)[0];
   $scope.eviction = $filter('filter')($scope.assembly.evictions, $stateParams.evictionId, true)[0];
@@ -42,10 +60,11 @@ angular.module('starter.controllers', ['pascalprecht.translate'])
 
 .controller('AssembliesCtrl', function($scope, $http, $ionicLoading) {
 
-  $scope.assemblies={};
+  /*$scope.assemblies={};
   if(localStorage.getItem('pah_assemblies')){
     $scope.assemblies=JSON.parse(localStorage.getItem('pah_assemblies'));
-  }
+  }*/
+  $scope.getStorageData();
 
   $scope.isFollowing=function(namegiv){
       if(localStorage.getItem(namegiv))
@@ -58,10 +77,11 @@ angular.module('starter.controllers', ['pascalprecht.translate'])
 })
 
 .controller('AssemblyDetailCtrl', function($scope, $stateParams, $filter) {
-  $scope.assemblies={};
+  /*$scope.assemblies={};
   if(localStorage.getItem('pah_assemblies')){
     $scope.assemblies=JSON.parse(localStorage.getItem('pah_assemblies'));
-  }
+  }*/
+  $scope.getStorageData();
 
   $scope.assembly = $filter('filter')($scope.assemblies, $stateParams.assemblyId, true)[0];
   console.log($scope.assembly);
@@ -90,35 +110,101 @@ angular.module('starter.controllers', ['pascalprecht.translate'])
 
 })
 
-.controller('OptionsCtrl', function($scope, $ionicPopup, $translate) {
+.controller('OptionsCtrl', function($scope, $ionicPopup, $translate, $ionicModal, $http, $timeout, $window) {
+  $scope.getStorageData();
+
   $scope.settings = {
     enableFriends: true
   };
   $scope.resetFollowing = function(){
       //window.localStorage.removeItem("following");
       //window.localStorage.setItem("following", "");
-      window.localStorage.clear();
+      localStorage.removeItem('pah_followingAssemblies');
   };
 
   //confirm box to reset follow data
   $scope.showConfirm = function() {
-   var confirmPopup = $ionicPopup.confirm({
-     title: 'Oju!',
-     template: 'Segur que vols esborrar les opcions de seguiment?'
-   });
-   confirmPopup.then(function(res) {
-     if(res) {
-       console.log('You are sure');
-       $scope.resetFollowing();
-     } else {
-       console.log('You are not sure');
-     }
-   });
- };
+     var confirmPopup = $ionicPopup.confirm({
+       title: 'Oju!',
+       template: 'Segur que vols esborrar les opcions de seguiment?'
+     });
+     confirmPopup.then(function(res) {
+       if(res) {
+         console.log('You are sure');
+         $scope.resetFollowing();
+       } else {
+         console.log('You are not sure');
+       }
+     });
+   };
 
 
     $scope.ChangeLanguage = function(lang){
         window.localStorage.setItem('lang', lang);
 		$translate.use(lang);
+    };
+
+
+
+    // login
+    $ionicModal.fromTemplateUrl('templates/login.html', {
+      scope: $scope
+    }).then(function(modal) {
+      $scope.modalLogin = modal;
+    });
+    $scope.closeLogin = function() {
+      $scope.modalLogin.hide();
+    };
+    $scope.showLogin = function() {
+      $scope.modalLogin.show();
+    };
+
+    $scope.loginData={};
+    $scope.doLogin = function() {
+      if(($scope.loginData.assemblyName!=undefined)
+        &&($scope.loginData.assemblyName!="")
+        &&($scope.loginData.password!=undefined)
+        &&($scope.loginData.password!=""))
+      {
+        $http({
+            url: urlapi + 'auth',
+            method: "POST",
+            data: $scope.loginData
+        })
+        .then(function(response) {
+                // success
+                console.log("response: ");
+                console.log(response.data);
+                if(response.data.success==true)
+                {
+                    console.log("login successful");
+                    localStorage.setItem("pah_assemblyName", response.data.assemblyName);
+                    localStorage.setItem("pah_token", response.data.token);
+                    localStorage.setItem("pah_assemblyId", response.data.assemblyId);
+                }else{
+                    console.log("login failed");
+                }
+                $timeout(function() {
+                  $scope.closeLogin();
+                  $window.location.reload(true);
+                }, 1000);
+
+        },
+        function(response) { // optional
+                // failed
+                console.log(response);
+        });
+      }else{
+        console.log("login data empty");
+        $scope.closeLogin();
+      }
+
+    };
+    $scope.doLogout = function() {
+      localStorage.removeItem("pah_assemblyName");
+      localStorage.removeItem("pah_assemblyId");
+      localStorage.removeItem("pah_token");
+      $window.location.reload(true);
+
     };
 });
