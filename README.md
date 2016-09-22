@@ -11,10 +11,11 @@ backend: https://github.com/arnaucode/pahappServer
 -show evictions                                      --> done
 -show assemblies                                     --> done
 -show assembly detail                                --> done
--post new assembly                                   --> todo
--post new eviction to assembly                       --> todo
--get assembly by name                                --> todo
+-show eviction detail                                --> done
+-post new assembly (signup)                          -->
+-post new eviction to assembly                       -->
+-get assembly by name                                -->
+-login assembly                                      -->
 
--api more secure and robust (comprovations, hash passwords, ...)
 
 ```

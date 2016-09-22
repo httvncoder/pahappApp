@@ -30,6 +30,13 @@ angular.module('starter.controllers', ['pascalprecht.translate'])
   };
 })
 .controller('EvictionDetailCtrl', function($scope, $stateParams, $filter) {
+  $scope.assemblies={};
+  if(localStorage.getItem('pah_assemblies')){
+    $scope.assemblies=JSON.parse(localStorage.getItem('pah_assemblies'));
+  }
+  console.log($stateParams.assemblyId);
+  $scope.assembly = $filter('filter')($scope.assemblies, $stateParams.assemblyId, true)[0];
+  $scope.eviction = $filter('filter')($scope.assembly.evictions, $stateParams.evictionId, true)[0];
 
 })
 

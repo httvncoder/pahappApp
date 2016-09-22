@@ -9,9 +9,9 @@
             No data in memory.<br>
             Pull from top to refresh
           </div>
-        </div>
+      </div>
       <div ng-repeat="assembly in assemblies">
-        <ion-item ng-repeat="eviction in assembly.evictions | orderBy: 'date'" href="#/tab/evictions/{{eviction.id}}">
+        <ion-item ng-repeat="eviction in assembly.evictions | orderBy: 'date'" href="#/tab/evictions/{{assembly._id}}/{{eviction._id}}">
           <span class='item-note'>
               <p class='badge'>{{eviction.date | date:'dd-MM-yyyy'}}</p>
               <br>

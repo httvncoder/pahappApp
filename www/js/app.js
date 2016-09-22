@@ -52,7 +52,7 @@ angular.module('starter', ['ionic',
     }
   })
   .state('tab.eviction-detail', {
-    url: '/evictions/:evictionId',
+    url: '/evictions/:assemblyId/:evictionId',
     views: {
       'tab-evictions': {
         templateUrl: 'templates/eviction-detail.html',
