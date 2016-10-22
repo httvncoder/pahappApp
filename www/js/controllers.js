@@ -110,7 +110,11 @@ angular.module('starter.controllers', ['pascalprecht.translate'])
 
 })
 
-.controller('OptionsCtrl', function($scope, $ionicPopup, $translate, $ionicModal, $http, $timeout, $window) {
+.controller('OptionsCtrl', function($scope, $ionicPopup, $translate, $ionicModal, $http, $filter, $timeout, $window) {
+  if(localStorage.getItem('pah_token')){// adding token to the headers
+    $http.defaults.headers.post['X-Access-Token'] = localStorage.getItem('pah_token');
+  }
+
   $scope.getStorageData();
 
   $scope.settings = {
@@ -206,5 +210,52 @@ angular.module('starter.controllers', ['pascalprecht.translate'])
       localStorage.removeItem("pah_token");
       $window.location.reload(true);
 
+    };
+
+
+
+    /*new eviction*/
+    $scope.neweviction={};
+    $ionicModal.fromTemplateUrl('templates/newEviction.html', {
+      scope: $scope
+    }).then(function(modal) {
+      $scope.modalNewEviction = modal;
+    });
+    $scope.closeModalNewEviction = function() {
+      $scope.modalNewEviction.hide();
+    };
+    $scope.showModalNewEviction = function(){
+      $scope.modalNewEviction.show();
+    };
+    $scope.doNewEviction = function(){
+    console.log($scope.neweviction.date);
+      $http({
+        url: urlapi + 'neweviction',
+        method: "POST",
+        data: $scope.neweviction
+      })
+      .then(function(response) {
+              // success
+              console.log("response: ");
+              console.log(response);
+              //$scope.newtravel._id=response.data._id;
+              //$scope.travels.push($scope.newtravel);
+              $scope.travels=response.data;
+              localStorage.setItem('pah_assemblies', JSON.stringify($scope.travels));
+              localStorage.setItem('pah_assembliesLastDate', JSON.stringify(new Date()));
+              $scope.neweviction={};
+              if(response.data.success==false){
+
+                  $ionicLoading.show({ template: 'failed to generate new eviction', noBackdrop: true, duration: 2000 });
+              }
+      },
+      function(response) { // optional
+              // failed
+          $ionicLoading.show({ template: 'failed to generate new publication, all input fields needed', noBackdrop: true, duration: 2000 });
+      });
+
+      $timeout(function() {
+        $scope.closeModalNewEviction();
+      }, 1000);
     };
 });

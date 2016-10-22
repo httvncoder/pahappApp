@@ -1,0 +1,54 @@
+<ion-modal-view view-title="{{'New_Eviction' | translate}}">
+  <ion-content>
+
+    <h4 class="padding">
+      <i class="ion-ios-home"></i>
+        {{'New_Eviction' | translate}} {{neweviction.title}}
+    </h4>
+    <form class="list">
+        <label class="item item-input">
+            <span class="input-label"t>{{'Title' | translate}}</span>
+            <input ng-model="neweviction.title" class="positive" type="text" placeholder="">
+        </label>
+
+        <label class="item item-input">
+            <span class="input-label">{{'Date' | translate}}</span>
+            <input ng-model="neweviction.date" type="date" placeholder="">
+        </label>
+        <label class="item item-input">
+            <span class="input-label">{{'Hour' | translate}}</span>
+            <input ng-model="neweviction.date" type="time" placeholder="">
+        </label>
+        <label class="item item-input">
+            <span class="input-label"t>{{'Direction' | translate}}</span>
+            <input ng-model="neweviction.direction" class="positive" type="text" placeholder="">
+        </label>
+        <label class="item item-input">
+            <span class="input-label"t>{{'Access' | translate}}</span>
+            <input ng-model="neweviction.access" class="positive" type="text" placeholder="">
+        </label>
+        <label class="item item-input">
+            <span class="input-label"t>{{'District' | translate}}</span>
+            <input ng-model="neweviction.district" class="positive" type="text" placeholder="">
+        </label>
+        <label class="item item-input">
+            <span class="input-label"t>{{'City' | translate}}</span>
+            <input ng-model="neweviction.city" class="positive" type="text" placeholder="">
+        </label>
+
+        <label class="item item-input item-floating-label">
+            <span class="input-label">{{'Description' | translate}}</span>
+            <input ng-model="neweviction.description" type="text" placeholder="Description">
+        </label>
+        <p class="padding">
+          <button ng-click="closeModalNewEviction()" class="button button-assertive">
+             {{'Cancel' | translate}}
+          </button>
+          <button ng-click="doNewEviction()" class="button button-balanced">
+             {{'Create_New_Eviction' | translate}}
+          </button>
+        </p>
+    </form>
+
+  </ion-content>
+</ion-modal-view>

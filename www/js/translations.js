@@ -10,7 +10,9 @@ var translations = {
 		"Follow": "Seguir!",
 		"Unfollow": "Deixar de seguir!",
 		"Assembly_zone": "Zona assemblees",
-		"Login": "Login"
+		"Login": "Login",
+		"Logout": "Logout",
+		"New_Eviction": "Nou desnonament"
 	},
 	"castellano": {
 		"language": "idioma actual: castellano",
