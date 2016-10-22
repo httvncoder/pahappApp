@@ -1,4 +1,5 @@
 var urlapi="http://localhost:3000/api/";
+//var urlapi="http://192.168.1.39:3000/api/";
 //var urlapi="https://pahapp.paas.primustech.io/api/";
 
 angular.module('starter.controllers', ['pascalprecht.translate'])
@@ -65,6 +66,10 @@ angular.module('starter.controllers', ['pascalprecht.translate'])
     $scope.assemblies=JSON.parse(localStorage.getItem('pah_assemblies'));
   }*/
   $scope.getStorageData();
+  /*if(localStorage.getItem('pah_assemblies')){
+    $scope.assemblies=JSON.parse(localStorage.getItem('pah_assemblies'));
+  }*/
+  console.log($scope.assemblies);
 
   $scope.isFollowing=function(namegiv){
       if(localStorage.getItem(namegiv))
@@ -143,10 +148,23 @@ angular.module('starter.controllers', ['pascalprecht.translate'])
    };
 
 
-    $scope.ChangeLanguage = function(lang){
+    /*$scope.ChangeLanguage = function(lang){
         window.localStorage.setItem('lang', lang);
 		$translate.use(lang);
-    };
+  };*/
+  if(localStorage.getItem('pah_lang'))//initialization
+  {
+    $scope.lang=localStorage.getItem('pah_lang');
+  }else{
+    localStorage.setItem('pah_lang', 'english');
+    $scope.lang=localStorage.getItem('pah_lang');
+  }
+
+  $scope.langChange = function(lang){
+    console.log(lang);
+      window.localStorage.setItem('pah_lang', lang);
+      $translate.use(lang);
+  };
 
 
 

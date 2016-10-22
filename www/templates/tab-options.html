@@ -1,17 +1,22 @@
 <ion-view view-title="{{ 'Options' | translate }}">
-  <ion-content>
+  <ion-content class="padding">
     <ion-list>
         <ion-toggle ng-model="settings.enableFriends">
             <p translate="Notifications">Notificacions</p>
         </ion-toggle>
-        <button ng-click="showConfirm()" class="button button-royal">
+        <button ng-click="showConfirm()" class="button button-default">
           <i class="icon ion-power"></i> <span translate="Reset_Followings">Reseteja seguiments!</span>
         </button>
         <p translate="language">Language</p>
-        <button class="button button-dark" ng-click="ChangeLanguage('catala')">català</button>
+        <!--<button class="button button-dark" ng-click="ChangeLanguage('catala')">català</button>
         <button class="button button-dark" ng-click="ChangeLanguage('castellano')">castellano</button>
         <button class="button button-dark" ng-click="ChangeLanguage('esperanto')">esperanto</button>
-
+        -->
+        <select ng-model="lang" ng-change="langChange(this.lang)">
+          <option value="catala">català</option>
+          <option value="castellano">castellano</option>
+          <option value="esperanto">esperanto</option>
+        </select>
         <hr>
         <p style="background: gray;">
           <h4 translate="Assembly_zone">Zona assemblees</h4>
@@ -24,6 +29,14 @@
           <button ng-show="storageAssemblyName" ng-click="showModalNewEviction()" class="button button-balanced">
             <i class="icon ion-plus"></i> <span translate="New_Eviction">New Eviction</span>
           </button>
+        </p>
+        <hr>
+        <hr>
+        <p>
+          <b>App desenvolupada per:</b>
+          <img class="o-imgResponsive" src='img/logoEntropiaSocial_text.png' />
+          Som un col·lectiu de suport a la xarxa de col·lectius, que  genera eines per l'autonomia dels moviments socials.
+          Re-apropiar-nos del món online, per recuperar el món offline.
         </p>
     </ion-list>
   </ion-content>
